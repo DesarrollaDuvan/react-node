@@ -1,34 +1,54 @@
 import { Form, Formik } from "formik";
 import { useTasks } from "../context/TaskProvider";
-import {useParams} from 'react-router-dom'
-import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function TasksForm() {
-  const { createTasks } = useTasks();
+  const { createTasks, getTask, updateTask } = useTasks();
   const params = useParams();
-  
-  useEffect(() => {
-    if(params.id){
-      console.log("loading data")
-    }
+  const navigate = useNavigate();
+  const [task, setTask] = useState({
+    nombre: "",
+    apellido: "",
+    edad: "",
+  });
 
-  }, [])
+  useEffect(() => {
+    const loadTask = async () => {
+      if (params.id) {
+        const task = await getTask(params.id);
+        setTask({
+          nombre: task.nombre,
+          apellido: task.apellido,
+          edad: task.edad,
+        });
+      }
+    };
+    loadTask();
+  }, []);
 
   return (
     <div>
       {/* este formik sirve para no crear el usestate y que se puedan ir llenando las variables */}
       <h1>{params.id ? "Edit task" : "new task"}</h1>
       <Formik
-        initialValues={{
-          nombre: "",
-          apellido: "",
-          edad: "",
-        }}
+        initialValues={task}
+        enableReinitialize={true}
         onSubmit={async (values, actions) => {
           console.log(values);
-          createTasks(values);
+          if (params.id) {
+            await updateTask(params.id, values);
+            navigate("/")
+          } else {
+            await createTasks(values);
+          }
           //este es para limpiar el formulario despues de enviar
-          actions.resetForm();
+          /* actions.resetForm(); */
+          setTask({
+            nombre: "",
+            apellido: "",
+            edad: "",
+          });
         }}
       >
         {/* se crea una function para poder ir llenando el formik con el handleChange y los name de los input */}

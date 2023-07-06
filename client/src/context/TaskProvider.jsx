@@ -1,11 +1,14 @@
 import { Children, createContext, useContext, useState } from "react";
 import {
-  getTaskRequest,
+  getTasksRequest,
   DeleteTasksRequest,
   createTaskRequest,
+  getTaskRequest,
+  updateTaskRequest,
 } from "../api/task.api";
 
-import {TaskContext} from './TaskContext'
+import { TaskContext } from "./TaskContext";
+import axios from "axios";
 
 export const useTasks = () => {
   const context = useContext(TaskContext);
@@ -21,7 +24,7 @@ export const TaskContextProvider = ({ children }) => {
 
   async function loadTasks() {
     //se esta trayendo los datos de la consulta de BD
-    const consulta = await getTaskRequest();
+    const consulta = await getTasksRequest();
     //se guardan en el useState
     setTasks(consulta);
   }
@@ -49,9 +52,29 @@ export const TaskContextProvider = ({ children }) => {
     }
   };
 
+  const getTask = async (id) => {
+    try {
+      const resp = await getTaskRequest(id);
+      console.log(resp);
+      return resp.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateTask = async (id, newFields) => {
+    try {
+      const rpt = await updateTaskRequest(id, newFields);
+      console.log(rpt);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <TaskContext.Provider value={{ tasks, loadTasks, deleteTaks, createTasks }}>
+    <TaskContext.Provider
+      value={{ tasks, loadTasks, deleteTaks, createTasks, getTask , updateTask}}
+    >
       {children}
     </TaskContext.Provider>
   );

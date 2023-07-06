@@ -7,15 +7,17 @@ import { TaskContextProvider } from "./context/TaskProvider";
 
 function App() {
   return (
-    <TaskContextProvider>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<TasksPage />}></Route>
-        <Route path="/new" element={<TasksForm />}></Route>
-        <Route path="/edit/:id" element={<TasksForm />}></Route>
-        <Route path="*" element={<NotFound />}></Route>
-      </Routes>
-    </TaskContextProvider>
+    <div className="bg-zing-800">
+      <TaskContextProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<TasksPage />}></Route>
+          <Route path="/new" element={<TasksForm />}></Route>
+          <Route path="/edit/:id" element={<TasksForm />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+      </TaskContextProvider>
+    </div>
   );
 }
 
