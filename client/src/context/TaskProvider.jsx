@@ -5,6 +5,7 @@ import {
   createTaskRequest,
   getTaskRequest,
   updateTaskRequest,
+  getLogin,
 } from "../api/task.api";
 
 import { TaskContext } from "./TaskContext";
@@ -71,9 +72,18 @@ export const TaskContextProvider = ({ children }) => {
     }
   };
 
+  const login = async (log) => {
+    try {
+      const rptLog = await getLogin(log);
+      console.log("🚀 ~ file: TaskProvider.jsx:78 ~ login ~ rptLog:", rptLog)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <TaskContext.Provider
-      value={{ tasks, loadTasks, deleteTaks, createTasks, getTask , updateTask}}
+      value={{ tasks, loadTasks, deleteTaks, createTasks, getTask, updateTask , login}}
     >
       {children}
     </TaskContext.Provider>

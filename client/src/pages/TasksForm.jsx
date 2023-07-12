@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 
 function TasksForm() {
   const { createTasks, getTask, updateTask } = useTasks();
+
   const params = useParams();
+
   const navigate = useNavigate();
+
   const [task, setTask] = useState({
     nombre: "",
     apellido: "",
@@ -30,10 +33,10 @@ function TasksForm() {
   return (
     <div className="mx-auto">
       {/* este formik sirve para no crear el usestate y que se puedan ir llenando las variables */}
-
       <Formik
         initialValues={task}
         enableReinitialize={true}
+        
         onSubmit={async (values, actions) => {
           console.log(values);
           if (params.id) {
@@ -81,7 +84,7 @@ function TasksForm() {
             />
             <label className="block">Edad</label>
             <input
-              type="number"
+              type="text"
               name="edad"
               className="px-2 py-2 rounded-sm w-full"
               onChange={handleChange}

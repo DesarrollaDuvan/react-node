@@ -6,6 +6,7 @@ import {
   createTasks,
   deleteTasks,
   updateTasks,
+  login,
 } from "../controller/tasks.controller.js";
 
  
@@ -17,5 +18,6 @@ router.get("/task/:id", getTask);//Se esta haciendo la consulta individual de la
 router.post("/tasks", createTasks);//Se esta creando cliente en la BD
 router.put("/tasks/:id", updateTasks);//Se esta actualizando los datos del cliente en la BD
 router.delete("/tasks/:id", deleteTasks);//este sirve para eliminar cliente de la BD
+router.post("/login", login);
 
 export default router;
